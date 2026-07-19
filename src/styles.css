@@ -1,0 +1,205 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant light (&:is(.light *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  --radius: 0.625rem;
+  /* easeGrow AI — Warm Sunrise (dark warm base + orange accent) */
+  --background: hsl(28 40% 5%);
+  --foreground: hsl(45 90% 92%);
+  --card: hsl(28 30% 8%);
+  --card-foreground: hsl(45 90% 92%);
+  --popover: hsl(28 30% 8%);
+  --popover-foreground: hsl(45 90% 92%);
+  --primary: hsl(24 95% 58%);
+  --primary-foreground: hsl(28 40% 5%);
+  --secondary: hsl(28 25% 10%);
+  --secondary-foreground: hsl(45 90% 92%);
+  --muted: hsl(28 20% 12%);
+  --muted-foreground: hsl(30 15% 62%);
+  --accent: hsl(28 25% 12%);
+  --accent-foreground: hsl(45 90% 92%);
+  --destructive: hsl(0 72% 51%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(28 20% 15%);
+  --input: hsl(28 20% 15%);
+  --ring: hsl(24 95% 58%);
+  --surface: hsl(28 25% 9%);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: hsl(240 6% 10%);
+  --sidebar-foreground: hsl(0 0% 98%);
+  --sidebar-primary: hsl(186 100% 68%);
+  --sidebar-primary-foreground: hsl(240 10% 3.9%);
+  --sidebar-accent: hsl(240 6% 12%);
+  --sidebar-accent-foreground: hsl(0 0% 98%);
+  --sidebar-border: hsl(240 5% 15%);
+  --sidebar-ring: hsl(186 100% 68%);
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+}
+
+@keyframes orb-breath {
+  0%, 100% { transform: scale(1); filter: blur(40px); opacity: 0.6; }
+  50% { transform: scale(1.1); filter: blur(60px); opacity: 0.9; }
+}
+@keyframes float-up {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes stream-in {
+  from { opacity: 0; transform: translateX(4px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@utility animate-orb { animation: orb-breath 6s var(--ease-out-expo) infinite; }
+@utility animate-float { animation: float-up 0.8s var(--ease-out-expo) both; }
+@utility animate-stream { animation: stream-in 0.4s ease-out both; }
+
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: -0.01em;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  box-shadow: 0 8px 24px -12px color-mix(in oklab, var(--primary) 70%, transparent);
+  transition: transform 150ms var(--ease-out-expo), background 200ms, box-shadow 200ms;
+  cursor: pointer;
+  &:hover { background: color-mix(in oklab, var(--primary) 88%, white); }
+  &:active { transform: scale(0.97); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+
+@utility btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 0.875rem;
+  background: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  transition: border-color 200ms, color 200ms, background 200ms;
+  cursor: pointer;
+  &:hover { border-color: var(--primary); color: var(--primary); }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.light {
+  /* easeGrow AI — Warm Sunrise (light): cream base, dark warm brown text, same orange accent */
+  --background: hsl(35 45% 96%);
+  --foreground: hsl(28 45% 10%);
+  --card: hsl(35 40% 98%);
+  --card-foreground: hsl(28 45% 10%);
+  --popover: hsl(35 40% 98%);
+  --popover-foreground: hsl(28 45% 10%);
+  --primary: hsl(22 92% 50%);
+  --primary-foreground: hsl(35 45% 98%);
+  --secondary: hsl(35 35% 92%);
+  --secondary-foreground: hsl(28 45% 10%);
+  --muted: hsl(35 30% 90%);
+  --muted-foreground: hsl(28 20% 38%);
+  --accent: hsl(35 35% 92%);
+  --accent-foreground: hsl(28 45% 10%);
+  --destructive: hsl(0 72% 48%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --border: hsl(28 25% 84%);
+  --input: hsl(28 25% 84%);
+  --ring: hsl(22 92% 50%);
+  --surface: hsl(35 40% 93%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
