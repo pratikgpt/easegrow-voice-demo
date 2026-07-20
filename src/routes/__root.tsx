@@ -9,8 +9,11 @@ import {
 } from "@tanstack/react-router";
 
 import { type ReactNode } from "react";
+import { Moon, Sun } from "lucide-react";
 
 import appCss from "../styles.css?url";
+import agencyLogo from "../assets/agency-logo.png";
+import { ThemeProvider, useTheme, themeInitScript } from "../lib/theme";
 
 function NotFoundComponent() {
   return (
@@ -131,6 +134,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body>
         {children}
@@ -145,9 +149,54 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-background text-foreground font-['DM_Sans'] selection:bg-primary/30">
-        <Outlet />
-      </div>
+      <ThemeProvider>
+        <div className="min-h-screen bg-background text-foreground font-['DM_Sans'] selection:bg-primary/30">
+          <SiteNav />
+          <Outlet />
+          <SiteFooter />
+        </div>
+      </ThemeProvider>
     </QueryClientProvider>
+  );
+}
+
+function SiteNav() {
+  const { theme, toggleTheme } = useTheme();
+
+  return (
+    <nav className="fixed top-0 w-full z-50 flex items-center justify-between gap-3 px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 border-b border-border bg-background/80 backdrop-blur-md">
+      <Link to="/" className="flex items-center">
+        <img
+          src={agencyLogo}
+          alt="easeGrow AI"
+          className="h-7 sm:h-9 w-auto opacity-90 hover:opacity-100 transition-opacity light:invert"
+        />
+      </Link>
+      <div className="flex items-center gap-2 shrink-0">
+        <button
+          type="button"
+          onClick={toggleTheme}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          className="inline-flex items-center justify-center size-8 sm:size-9 rounded-full border border-border bg-surface text-foreground/80 hover:text-primary hover:border-primary/50 transition-colors cursor-pointer"
+        >
+          {theme === "dark" ? (
+            <Sun className="size-4" strokeWidth={2} aria-hidden />
+          ) : (
+            <Moon className="size-4" strokeWidth={2} aria-hidden />
+          )}
+        </button>
+      </div>
+    </nav>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="px-4 sm:px-6 md:px-8 py-8 md:py-12 border-t border-border mt-16 md:mt-20 flex flex-col md:flex-row justify-between items-center gap-6 text-center">
+      <div className="text-muted-foreground text-xs sm:text-sm">
+        © {new Date().getFullYear()} easeGrow AI
+      </div>
+    </footer>
   );
 }
