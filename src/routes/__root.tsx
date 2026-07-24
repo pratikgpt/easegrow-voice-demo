@@ -4,15 +4,18 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useNavigate,
+  useLocation,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
 
 import { type ReactNode } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Phone, Moon, Sun } from "lucide-react";
 
 import appCss from "../styles.css?url";
 import agencyLogo from "../assets/agency-logo.png";
+import { CallControlProvider, useCallControl } from "../lib/call-control";
 import { ThemeProvider, useTheme, themeInitScript } from "../lib/theme";
 
 function NotFoundComponent() {
@@ -150,18 +153,30 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <div className="min-h-screen bg-background text-foreground font-['DM_Sans'] selection:bg-primary/30">
-          <SiteNav />
-          <Outlet />
-          <SiteFooter />
-        </div>
+        <CallControlProvider>
+          <div className="min-h-screen bg-background text-foreground font-['DM_Sans'] selection:bg-primary/30">
+            <SiteNav />
+            <Outlet />
+            <SiteFooter />
+          </div>
+        </CallControlProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );
 }
 
 function SiteNav() {
+  const { requestCall } = useCallControl();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+
+  const handleCallNow = async () => {
+    if (location.pathname !== "/") {
+      await navigate({ to: "/" });
+    }
+    requestCall();
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 flex items-center justify-between gap-3 px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 border-b border-border bg-background/80 backdrop-blur-md">
@@ -173,6 +188,19 @@ function SiteNav() {
         />
       </Link>
       <div className="flex items-center gap-2 shrink-0">
+        <button
+          type="button"
+          onClick={handleCallNow}
+          className="btn-primary group !py-1.5 !px-3 !text-xs sm:!text-sm shrink-0"
+          aria-label="Start a call with the voice agent"
+        >
+          <Phone
+            className="size-4 transition-transform duration-200 ease-out group-hover:-rotate-6 group-hover:scale-110 group-active:scale-95"
+            strokeWidth={2}
+            aria-hidden
+          />
+          Call now
+        </button>
         <button
           type="button"
           onClick={toggleTheme}
