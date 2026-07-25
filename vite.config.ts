@@ -6,7 +6,13 @@ import tailwindcss from "@tailwindcss/vite";
 
 // Plugin order matters: Tailwind first, then TanStack Start, Nitro (build only), and React last.
 export default defineConfig(async ({ command }) => {
-  const plugins = [tailwindcss(), tanstackStart()];
+  const plugins = [
+    tailwindcss(),
+    tanstackStart({
+      // src/server.ts wraps TanStack Start's server entry with a friendly error page.
+      server: { entry: "server" },
+    }),
+  ];
 
   // Nitro only runs at build time. It detects the host (Vercel, Netlify, …) and falls back to Cloudflare.
   if (command === "build") {
