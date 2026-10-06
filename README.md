@@ -5,6 +5,8 @@ conversation without installing anything.
 
 **Live:** [voice.tryeasegrow.com](https://voice.tryeasegrow.com)
 
+![The voice demo's home page: pick an assistant, tap to call and watch the live transcript](docs/screenshots/home.png)
+
 ## How it works
 
 - **Voice calls:** the [Vapi](https://vapi.ai) Web SDK runs the call in the browser. There are two
